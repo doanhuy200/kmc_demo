@@ -22,3 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/videos', 'VideoController@index')->name('video.index');
+Route::get('/videos/create', 'VideoController@create')->name('video.create');
+Route::post('/videos/store', 'VideoController@store')->name('video.store');
+Route::get('/videos/edit/{entry_id}', 'VideoController@edit')->name('video.edit');
