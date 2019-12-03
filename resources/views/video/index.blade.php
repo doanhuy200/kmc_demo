@@ -28,7 +28,7 @@
                                         <td><img src="{{ $entry->thumbnailUrl }}" class="imgThumbs"/></td>
                                         <td><a href="{{ url("view/360/$entry->partnerId/$entry->id") }}" target="_blank">{{ $entry->name }}</a></td>
                                         <td>{{ $entry->views }}</td>
-                                        <td>{{ $entry->status }}</td>
+                                        <td>{{ convertStatusVideo($entry->status) }}</td>
                                         <td>
                                             <a href="{{ route('video.edit', $entry->id) }}">Edit</a>
                                         </td>
