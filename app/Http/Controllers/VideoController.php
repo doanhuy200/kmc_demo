@@ -25,9 +25,9 @@ class VideoController extends Controller
         $configuration = new KalturaConfiguration();
         $configuration->serviceUrl = config('kmc_demo.kaltura_service_url');
         $this->client = new KalturaClient($configuration);
-        $admin_secret = "1fbafe3da6dd392124590b1ea7f7e5a5";
+        $admin_secret = "85ef214870879852c802800efa2d3207";
         $type = KalturaSessionType::ADMIN;
-        $partner_id = 99;
+        $partner_id = 100;
         $ks = $this->client->session->start($admin_secret, null, $type, $partner_id);
         $this->client->setKs($ks);
     }
@@ -61,12 +61,61 @@ class VideoController extends Controller
             $entries = $entryStocks->objects;
 //            dd($entries);
 
-            return view('video.index', compact('entries', 'urlShow'));
+
+            return view('video.index', compact('entries'));
         } catch (KalturaClientException $e) {
             dd($e->getMessage());
         } catch (KalturaException $e) {
             dd($e->getMessage());
         }
+    }
+
+    public function preview($entry_id)
+    {
+//        $flavors = $this->client->flavorAsset->getByEntryId($entry_id);
+//        $urlShow = "";
+//        foreach ($flavors as $flavor) {
+//            if ($flavor->status == 2 && $flavor->flavorParamsId == 0) {
+//                $urlShow = $this->client->flavorAsset->geturl($flavor->id);
+//            }
+//        }
+        $flavors = $this->client->flavorAsset->getByEntryId($entry_id);
+
+        foreach ($flavors as $i => $flavor) {
+            if ($flavor->flavorParamsId == 2) {
+                $j = 2;
+            } elseif ($flavor->flavorParamsId == 3) {
+                $j = 3;
+            } elseif ($flavor->flavorParamsId == 4) {
+                $j = 4;
+            } elseif ($flavor->flavorParamsId == 5) {
+                $j = 5;
+            } elseif ($flavor->flavorParamsId == 6) {
+                $j = 6;
+            } elseif ($flavor->flavorParamsId == 7) {
+                $j = 7;
+            } else {
+                $j = 0;
+            }
+
+            try {
+                if ($flavor->status == 2) {
+                    $url = $this->client->flavorAsset->geturl($flavor->id);
+                    $urlShow[$j]['url'] = $url;
+                    $urlShow[$j]['bitrate'] = $flavor->bitrate . ' Kbps';
+                    $urlShow[$j]['framerate'] = $flavor->frameRate;
+                    $urlShow[$j]['size'] = $flavor->width . " x " . $flavor->height;
+                    $urlShow[$j]['width'] = $flavor->width;
+                    $urlShow[$j]['height'] = $flavor->height;
+                }
+            } catch (Exception $e) {
+
+            }
+
+        }
+//        dd(json_encode($urlShow));
+
+        return response()->json(['urlShow' => $urlShow], 200);
     }
 
     public function create()
@@ -76,26 +125,56 @@ class VideoController extends Controller
 
     public function edit($entry_id)
     {
-        $entry = Entry::find($entry_id);
-//        $entryId = "0_ciczw5qp";
+//        $entry = Entry::find($entry_id);
+//        $urlShow = "";
         $flavors = $this->client->flavorAsset->getByEntryId($entry_id);
-        foreach ($flavors as $flavor) {
-//                var_dump($flavor->flavorParamsId);
-//                $dataTempFlavor = $this->client->flavorAsset->geturl($flavor->id);
-            if ($flavor->status == 2 && $flavor->flavorParamsId == 0) {
-//                    $data = $this->client->flavorAsset->convert($entryId, $flavor->flavorParamsId);
 
-                $urlShow = $this->client->flavorAsset->geturl($flavor->id);
+        foreach ($flavors as $i => $flavor) {
+            if ($flavor->flavorParamsId == 2) {
+                $j = 2;
+            } elseif ($flavor->flavorParamsId == 3) {
+                $j = 3;
+            } elseif ($flavor->flavorParamsId == 4) {
+                $j = 4;
+            } elseif ($flavor->flavorParamsId == 5) {
+                $j = 5;
+            } elseif ($flavor->flavorParamsId == 6) {
+                $j = 6;
+            } elseif ($flavor->flavorParamsId == 7) {
+                $j = 7;
+            } else {
+                $j = 0;
             }
+
+            try {
+                if ($flavor->status == 2) {
+                    $url = $this->client->flavorAsset->geturl($flavor->id);
+                    $urlShow[$j]['url'] = $url;
+                    $urlShow[$j]['bitrate'] = $flavor->bitrate . ' Kbps';
+                    $urlShow[$j]['framerate'] = $flavor->frameRate;
+                    $urlShow[$j]['size'] = $flavor->width . " x " . $flavor->height;
+                }
+            } catch (Exception $e) {
+
+            }
+
         }
+//        dd($urls);
+
+//        foreach ($flavors as $flavor) {
+//            if ($flavor->status == 2 && $flavor->flavorParamsId == 0) {
+//                $urlShow = $this->client->flavorAsset->geturl($flavor->id);
+//            }
+//        }
 //        dd($urlShow);
+
         return view('video.edit', compact('urlShow'));
+//        return view('video.edit');
     }
     
     public function store(Request $request)
     {
         try {
-
             $token = $this->client->baseEntry->upload($request->file('file'));
             $entry = new KalturaMediaEntry();
 
@@ -116,5 +195,16 @@ class VideoController extends Controller
             dd("Convert error");
         }
 
+    }
+
+    public function delete($entry_id)
+    {
+        try {
+            $this->client->baseEntry->delete($entry_id);
+
+            return redirect()->route('video.index');
+        } catch (KalturaException $exception) {
+            dd($exception->getMessage());
+        }
     }
 }
