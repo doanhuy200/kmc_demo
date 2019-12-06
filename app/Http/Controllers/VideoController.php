@@ -15,6 +15,7 @@ use KalturaAssetFilter;
 use KalturaMediaEntryFilter;
 use KalturaEntryStatus;
 use App\Entry;
+use App\Enums\FlavorParamsVideoType;
 
 class VideoController extends Controller
 {
@@ -82,20 +83,20 @@ class VideoController extends Controller
         $flavors = $this->client->flavorAsset->getByEntryId($entry_id);
 
         foreach ($flavors as $i => $flavor) {
-            if ($flavor->flavorParamsId == 2) {
-                $j = 2;
-            } elseif ($flavor->flavorParamsId == 3) {
-                $j = 3;
-            } elseif ($flavor->flavorParamsId == 4) {
-                $j = 4;
-            } elseif ($flavor->flavorParamsId == 5) {
-                $j = 5;
-            } elseif ($flavor->flavorParamsId == 6) {
-                $j = 6;
-            } elseif ($flavor->flavorParamsId == 7) {
-                $j = 7;
+            if ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x400) {
+                $j = FlavorParamsVideoType::WEB_H264x400;
+            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x600) {
+                $j = FlavorParamsVideoType::WEB_H264x600;
+            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x900) {
+                $j = FlavorParamsVideoType::WEB_H264x900;
+            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x1500) {
+                $j = FlavorParamsVideoType::WEB_H264x1500;
+            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x2500) {
+                $j = FlavorParamsVideoType::WEB_H264x2500;
+            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x4000) {
+                $j = FlavorParamsVideoType::WEB_H264x4000;
             } else {
-                $j = 0;
+                $j = FlavorParamsVideoType::WEB_NOT_VIDEO;
             }
 
             try {
@@ -107,6 +108,8 @@ class VideoController extends Controller
                     $urlShow[$j]['size'] = $flavor->width . " x " . $flavor->height;
                     $urlShow[$j]['width'] = $flavor->width;
                     $urlShow[$j]['height'] = $flavor->height;
+                    $urlShow[$j]['id'] = $flavor->id;
+                    $urlShow[$j]['entryId'] = $flavor->entryId;
                 }
             } catch (Exception $e) {
 
@@ -130,20 +133,20 @@ class VideoController extends Controller
         $flavors = $this->client->flavorAsset->getByEntryId($entry_id);
 
         foreach ($flavors as $i => $flavor) {
-            if ($flavor->flavorParamsId == 2) {
-                $j = 2;
-            } elseif ($flavor->flavorParamsId == 3) {
-                $j = 3;
-            } elseif ($flavor->flavorParamsId == 4) {
-                $j = 4;
-            } elseif ($flavor->flavorParamsId == 5) {
-                $j = 5;
-            } elseif ($flavor->flavorParamsId == 6) {
-                $j = 6;
-            } elseif ($flavor->flavorParamsId == 7) {
-                $j = 7;
+            if ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x400) {
+                $j = FlavorParamsVideoType::WEB_H264x400;
+            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x600) {
+                $j = FlavorParamsVideoType::WEB_H264x600;
+            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x900) {
+                $j = FlavorParamsVideoType::WEB_H264x900;
+            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x1500) {
+                $j = FlavorParamsVideoType::WEB_H264x1500;
+            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x2500) {
+                $j = FlavorParamsVideoType::WEB_H264x2500;
+            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x4000) {
+                $j = FlavorParamsVideoType::WEB_H264x4000;
             } else {
-                $j = 0;
+                $j = FlavorParamsVideoType::WEB_NOT_VIDEO;
             }
 
             try {
@@ -153,11 +156,14 @@ class VideoController extends Controller
                     $urlShow[$j]['bitrate'] = $flavor->bitrate . ' Kbps';
                     $urlShow[$j]['framerate'] = $flavor->frameRate;
                     $urlShow[$j]['size'] = $flavor->width . " x " . $flavor->height;
+                    $urlShow[$j]['width'] = $flavor->width;
+                    $urlShow[$j]['height'] = $flavor->height;
+                    $urlShow[$j]['id'] = $flavor->id;
+                    $urlShow[$j]['entryId'] = $flavor->entryId;
                 }
             } catch (Exception $e) {
 
             }
-
         }
 //        dd($urls);
 

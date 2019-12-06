@@ -10,8 +10,14 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <video class="video-wrapper" id="video-wrapper" width="400" controls="controls" preload="metadata">
-                        <source class="video-preview">
+                    <label for="">ID: <span class="flavor-id"></span></label>
+                </div>
+                <div class="form-group">
+                    <label for="">EntryID: <span class="flavor-entryId"></span></label>
+                </div>
+                <div class="form-group">
+                    <video class="video-wrapper" id="video-wrapper" controls="controls" preload="metadata">
+                        <source class="video-preview" type="video/mp4">
                     </video>
 
                 </div>

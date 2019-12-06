@@ -63,13 +63,15 @@
                 success:function(data) {
                     var dataJson = data.urlShow;
                     // var urlShow = JSON.parse(dataJson);
+                    // console.log(dataJson[2].url);
 
-                    console.log(dataJson[2].url);
-                    // var urlShow = data.urlShow.toArray();
-                     console.log($('.video-wrapper')[0]);
-                    $('#video-wrapper').attr('width', dataJson[2].width);
-                    $('#video-wrapper').attr('height', dataJson[2].height);
                     $('.video-preview').attr('src', dataJson[2].url);
+                    $('.flavor-entryId').empty();
+                    $('.flavor-entryId').append("<strong>" + dataJson[2].entryId + "</strong>");
+                    $('.flavor-id').empty();
+                    $('.flavor-id').append("<strong>" + dataJson[2].id + "</strong>");
+                    $('#video-wrapper')[0].pause();
+                    $('#video-wrapper')[0].removeAttribute('src');
                     $('#video-wrapper')[0].load();
                 }
             });
