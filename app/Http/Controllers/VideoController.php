@@ -16,6 +16,7 @@ use KalturaMediaEntryFilter;
 use KalturaEntryStatus;
 use App\Entry;
 use App\Enums\FlavorParamsVideoType;
+use App\Enums\FlavorAssetStatus;
 
 class VideoController extends Controller
 {
@@ -100,7 +101,7 @@ class VideoController extends Controller
             }
 
             try {
-                if ($flavor->status == 2) {
+                if ($flavor->status == FlavorAssetStatus::READY) {
                     $url = $this->client->flavorAsset->geturl($flavor->id);
                     $urlShow[$j]['url'] = $url;
                     $urlShow[$j]['bitrate'] = $flavor->bitrate . ' Kbps';
@@ -150,7 +151,7 @@ class VideoController extends Controller
             }
 
             try {
-                if ($flavor->status == 2) {
+                if ($flavor->status == FlavorAssetStatus::READY) {
                     $url = $this->client->flavorAsset->geturl($flavor->id);
                     $urlShow[$j]['url'] = $url;
                     $urlShow[$j]['bitrate'] = $flavor->bitrate . ' Kbps';
