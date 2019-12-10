@@ -84,20 +84,27 @@ class VideoController extends Controller
         $flavors = $this->client->flavorAsset->getByEntryId($entry_id);
 
         foreach ($flavors as $i => $flavor) {
-            if ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x400) {
-                $j = FlavorParamsVideoType::WEB_H264x400;
-            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x600) {
-                $j = FlavorParamsVideoType::WEB_H264x600;
-            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x900) {
-                $j = FlavorParamsVideoType::WEB_H264x900;
-            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x1500) {
-                $j = FlavorParamsVideoType::WEB_H264x1500;
-            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x2500) {
-                $j = FlavorParamsVideoType::WEB_H264x2500;
-            } elseif ($flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x4000) {
-                $j = FlavorParamsVideoType::WEB_H264x4000;
-            } else {
-                $j = FlavorParamsVideoType::WEB_NOT_VIDEO;
+            switch ($flavor->flavorParamsId) {
+                case $flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x400:
+                    $j = FlavorParamsVideoType::WEB_H264x400;
+                    break;
+                case $flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x600:
+                    $j = FlavorParamsVideoType::WEB_H264x600;
+                    break;
+                case $flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x900:
+                    $j = FlavorParamsVideoType::WEB_H264x900;
+                    break;
+                case $flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x1500:
+                    $j = FlavorParamsVideoType::WEB_H264x1500;
+                    break;
+                case $flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x2500:
+                    $j = FlavorParamsVideoType::WEB_H264x2500;
+                    break;
+                case $flavor->flavorParamsId == FlavorParamsVideoType::WEB_H264x4000:
+                    $j = FlavorParamsVideoType::WEB_H264x4000;
+                    break;
+                default:
+                    $j = FlavorParamsVideoType::WEB_NOT_VIDEO;
             }
 
             try {
@@ -178,7 +185,7 @@ class VideoController extends Controller
         return view('video.edit', compact('urlShow'));
 //        return view('video.edit');
     }
-    
+
     public function store(Request $request)
     {
         try {
